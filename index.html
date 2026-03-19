@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS READING: SCANNING & SYNONYMS FULL TEST</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { 
+            --primary: #13a62e; 
+            --bg: #e5f6e9; 
+            --hl-manual: #90ee90; 
+            --accent-orange: #ff6d3a;
+            --text-main: #333;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 0; color: var(--text-main); overflow-x: hidden; }
+        
+        /* Header & Info */
+        header { background: var(--primary); color: white; padding: 25px 10px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        header h1 { margin: 0; font-size: 2.2rem; text-transform: uppercase; letter-spacing: 1px; }
+        header p { margin: 5px 0 0 0; color: #dcfce7; font-size: 1.1rem; }
+
+        .top-info { background: white; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; margin: 0 20px 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .student-input { padding: 10px; width: 280px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; outline: none; transition: 0.3s; }
+        .student-input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(19, 166, 46, 0.2); }
+        
+        /* Share Section */
+        #share-section { display: none; background: #fff9f0; padding: 25px; margin: 0 20px 20px; border-radius: 8px; border: 2px dashed var(--accent-orange); text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .btn-copy { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1.1rem; transition: 0.3s; }
+        .btn-copy:hover { background: #0e8524; }
+
+        /* Main Layout */
+        .container { display: grid; grid-template-columns: 250px 1fr; gap: 20px; padding: 0 20px 100px; max-width: 1600px; margin: auto; }
+        
+        /* Sidebar (Dictation & Tools) */
+        .sidebar { background: white; padding: 20px; border-radius: 12px; height: fit-content; position: sticky; top: 20px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); }
+        .sidebar h3 { color: var(--primary); font-size: 1.1rem; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px;}
+        #vocab-display { border: 2px dashed var(--primary); min-height: 90px; padding: 15px; margin: 15px 0; border-radius: 8px; font-size: 0.95rem; background: #f0fdf4;}
+        .mode-btn { width: 100%; padding: 12px; margin-bottom: 10px; border: 2px solid var(--primary); border-radius: 8px; cursor: pointer; font-weight: bold; background: white; color: var(--primary); transition: 0.3s; }
+        .mode-active { background: var(--primary); color: white; }
+        .vocab-list { font-size: 0.85rem; margin-top: 15px; color: #555; max-height: 250px; overflow-y: auto; padding-right: 5px; }
+
+        /* Split Screen (Reading / Questions) */
+        .part-container { display: none; animation: fadeIn 0.4s ease; }
+        .part-container.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .split-layout { background: white; border-radius: 12px; display: flex; height: calc(100vh - 220px); min-height: 600px; box-shadow: 0 2px 15px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 20px;}
+        .passage-col { flex: 0 0 55%; overflow-y: auto; padding: 35px; border-right: 2px solid #eee; }
+        .question-col { flex: 1; overflow-y: auto; padding: 35px; background: #fcfcfc; }
+        
+        .passage-col h2 { color: #166534; font-size: 1.8rem; margin-top: 0; margin-bottom: 20px; text-align: center;}
+        .passage-col p { line-height: 1.8; font-size: 1.1rem; text-align: justify; margin-bottom: 1.2rem; color: #374151; }
+
+        /* Question Items */
+        .q-item { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: 0.3s; }
+        .q-item:hover { border-color: #93c5fd; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .q-item p { margin-top: 0; font-size: 1.05rem; font-weight: 500; }
+        .input-box { width: 100%; border: none; border-bottom: 2px solid #cbd5e1; background: #f8fafc; padding: 10px; font-size: 1rem; font-weight: bold; color: var(--primary); outline: none; transition: 0.3s; border-radius: 4px 4px 0 0;}
+        .input-box:focus { border-bottom-color: var(--primary); background: #e5f6e9; }
+        
+        .feedback-msg { font-weight: bold; margin-top: 15px; padding: 10px; border-radius: 6px; display: none; font-size: 0.95rem;}
+        .correct-msg { color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; }
+        .incorrect-msg { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; }
+        .empty-msg { color: #856404; background-color: #fff3cd; border: 1px solid #ffeeba; }
+
+        /* Highlight Manual */
+        .hl-manual { background: var(--hl-manual); cursor: pointer; border-radius: 2px; padding: 0 2px;}
+
+        /* Part Navigation */
+        .part-nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
+        .btn-nav { background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 1.1rem; transition: 0.3s; box-shadow: 0 4px 6px rgba(19, 166, 46, 0.2); }
+        .btn-nav:hover { background: #0e8524; transform: translateY(-2px); }
+        .btn-submit-part { background: var(--accent-orange); box-shadow: 0 4px 6px rgba(255, 109, 58, 0.2); }
+        .btn-submit-part:hover { background: #e65c2a; }
+
+        /* Bottom Tracking Dots */
+        .nav-footer { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px 30px; display: flex; justify-content: center; align-items: center; box-shadow: 0 -4px 15px rgba(0,0,0,0.08); z-index: 1000; }
+        .dots-container { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;}
+        .dot { width: 36px; height: 36px; border-radius: 8px; border: 2px solid #e2e8f0; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #64748b; cursor: pointer; transition: 0.2s; background: white;}
+        .dot:hover { border-color: var(--primary); color: var(--primary); }
+        .dot.answered { background: #dcfce7; border-color: #86efac; color: #166534; }
+        .dot.correct { background: var(--primary); color: white; border-color: var(--primary); }
+        .dot.incorrect { background: #ef4444; color: white; border-color: #ef4444; }
+        
+        .part-divider { width: 2px; background: #cbd5e1; margin: 0 10px; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body>
+
+<div id="teacher-banner" style="display:none; background: var(--accent-orange); color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 1.1rem; text-transform: uppercase;">
+    <i class="fas fa-eye"></i> Đang xem bài làm của học sinh
+</div>
+
+<header>
+    <h1>IELTS READING PARAPHRASE 2</h1>
+    <p>Trình độ: B1 - B2 | 3 Phần | 21 Câu hỏi</p>
+</header>
+
+<div class="top-info">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-weight: bold; font-size: 1.1rem; color: #555;">Học sinh:</span> 
+        <input type="text" id="studentName" class="student-input" placeholder="Nhập họ và tên để nộp bài...">
+    </div>
+    <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-orange); font-family: monospace;">
+        <i class="fas fa-stopwatch"></i> <span id="timer">00:00</span>
+    </div>
+    <div id="final-score" style="font-weight:bold; color:var(--primary); font-size: 1.5rem;"></div>
+</div>
+
+<div id="share-section">
+    <h2 style="color: var(--accent-orange); margin-top:0; font-size: 2rem;"><i class="fas fa-check-circle"></i> Đã hoàn thành bài tập!</h2>
+    <p style="font-size: 1.2rem; color: #555;">Hãy copy đường link dưới đây và gửi cho giáo viên của bạn để nộp bài:</p>
+    <div style="display: flex; justify-content: center; gap: 10px; max-width: 800px; margin: 20px auto;">
+        <input type="text" id="share-link" readonly style="flex: 1; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-size: 1.1rem; color: #555; outline: none; background: white;">
+        <button class="btn-copy" onclick="copyShareLink()"><i class="fas fa-clipboard"></i> Copy Link Nộp Bài</button>
+    </div>
+</div>
+
+<div class="container" id="main-test-area">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h3><i class="fas fa-tools"></i> CÔNG CỤ HỌC TẬP</h3>
+        <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;"><i>Mẹo: Nhấp đúp vào từ vựng tiếng Anh trong bài đọc để dịch và nghe phát âm. Bôi đen để highlight.</i></p>
+        
+        <select id="voice-accent" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 15px; outline: none;">
+            <option value="en-US">🗣 Giọng Mỹ (US Accent)</option>
+            <option value="en-GB">🗣 Giọng Anh (UK Accent)</option>
+        </select>
+        
+        <button class="mode-btn mode-active" id="btn-hl" onclick="setMode('HL')"><i class="fas fa-highlighter"></i> Bút Highlight</button>
+        <button class="mode-btn" id="btn-vocab" onclick="setMode('VOCAB')"><i class="fas fa-search"></i> Tra từ điển</button>
+        
+        <div id="vocab-display">Nhấp đúp vào một từ tiếng Anh để bắt đầu tra cứu...</div>
+        
+        <button style="width:100%; padding: 10px; cursor:pointer; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; font-weight: 600; color: #475569; transition: 0.2s;" onclick="copyVocab()"><i class="fas fa-copy"></i> Lưu danh sách từ</button>
+        <div id="vocab-list" class="vocab-list"></div>
+    </div>
+
+    <!-- CONTENT AREA -->
+    <div class="content">
+        
+        <!-- PART 1 -->
+        <div id="part-1" class="part-container active">
+            <div class="part-nav" style="justify-content: flex-start; padding-top: 0;">
+                <h2 style="margin: 0; color: var(--primary);"><i class="fas fa-book-open"></i> PART 1: AI IN UK SCHOOLS</h2>
+            </div>
+            <div class="split-layout">
+                <div class="passage-col">
+                    <h2>One in four students say AI ‘makes it too easy’ for them to find answers</h2>
+                    <p>Pupils fear that using artificial intelligence is eroding their ability to study, with many complaining it makes schoolwork "too easy" and others saying it limits their creativity and stops them learning new skills, according to new research.</p>
+                    <p>The report on the use of AI in UK schools, commissioned by Oxford University Press (OUP), found that just 2% of students aged between 13 and 18 said they did not use AI for their schoolwork, while 80% said they regularly used it. Despite AI’s popularity, 62% of the students said it has had a negative impact on their skills and development at school, while one in four of the students agreed that AI “makes it too easy for me to find the answers without doing the work myself”.</p>
+                    <p>A further 12% said AI “limits my creative thinking” while similar numbers said they were less likely to solve problems or write creatively. Alexandra Tomescu, OUP’s generative AI and machine learning product specialist, said the study was among the first to look at how young people in the UK were incorporating AI into their education.</p>
+                    <p>“The thing I find fascinating is how sophisticated the answers are,” Tomescu said. “For 60% of students to say they are concerned that AI tools encourage copying rather than doing original work, that’s a very deep understanding of what your schoolwork is meant to help you do, and what the pitfalls and benefits are associated with this technology."</p>
+                    <p>OUP’s findings follow empirical studies on the use of AI in education. One published this year by the Massachusetts Institute of Technology (MIT) measured brain electrical activity during essay writing among students using large language models (LLM) such as ChatGPT, and concluded: “These results raise concerns about the long-term educational implications of LLM reliance and underscore the need for deeper inquiry into AI’s role in learning.”</p>
+                    <p>Nearly half of the 2,000 students surveyed by OUP said they were worried their classmates were “secretly using AI” for schoolwork without their teachers being able to spot it. Many reported that they wanted more help from teachers for the appropriate use of AI and in judging whether its output was reliable. OUP said it is launching a new AI education hub aimed at supporting teachers.</p>
+                    <p>Daniel Williams, an assistant headteacher and AI lead at Bishop Vesey’s grammar school in Birmingham, said: “The findings closely reflect what I see in school. Many pupils recognise AI’s value for creativity, revision, and problem-solving but often use it as a shortcut rather than a learning tool.”</p>
+                </div>
+                <div class="question-col">
+                    <p style="margin-top:0; font-weight: bold; color: #555; margin-bottom: 20px;">Điền ĐÚNG 1 TỪ (ONE WORD ONLY) có trong bài đọc đồng nghĩa với gợi ý.</p>
+                    
+                    <div class="q-item" data-ans="regularly">
+                        <p><b>Q1:</b> Tìm từ đồng nghĩa với <b>'frequently / often'</b>:</p>
+                        <input type="text" id="q1" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(1)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-1"></div>
+                    </div>
+                    <div class="q-item" data-ans="impact">
+                        <p><b>Q2:</b> Tìm từ đồng nghĩa với <b>'effect / influence'</b>:</p>
+                        <input type="text" id="q2" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(2)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-2"></div>
+                    </div>
+                    <div class="q-item" data-ans="original">
+                        <p><b>Q3:</b> Tìm từ đồng nghĩa với <b>'new and not copied'</b>:</p>
+                        <input type="text" id="q3" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(3)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-3"></div>
+                    </div>
+                    <div class="q-item" data-ans="benefits">
+                        <p><b>Q4:</b> Tìm từ đồng nghĩa với <b>'advantages / positive points'</b>:</p>
+                        <input type="text" id="q4" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(4)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-4"></div>
+                    </div>
+                    <div class="q-item" data-ans="surveyed">
+                        <p><b>Q5:</b> Tìm từ đồng nghĩa với <b>'asked questions to gather data'</b>:</p>
+                        <input type="text" id="q5" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(5)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-5"></div>
+                    </div>
+                    <div class="q-item" data-ans="appropriate">
+                        <p><b>Q6:</b> Tìm từ đồng nghĩa với <b>'suitable / correct for a situation'</b>:</p>
+                        <input type="text" id="q6" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(6)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-6"></div>
+                    </div>
+                    <div class="q-item" data-ans="shortcut">
+                        <p><b>Q7:</b> Tìm từ đồng nghĩa với <b>'a quicker way of doing something'</b>:</p>
+                        <input type="text" id="q7" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(7)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-7"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="part-nav" style="justify-content: flex-end;">
+                <button class="btn-nav" onclick="showPart(2)">Chuyển sang Part 2 <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- PART 2 -->
+        <div id="part-2" class="part-container">
+            <div class="part-nav" style="justify-content: flex-start; padding-top: 0;">
+                <h2 style="margin: 0; color: var(--primary);"><i class="fas fa-book-open"></i> PART 2: WHY SOME PEOPLE BELIEVE AI IS HUMAN</h2>
+            </div>
+            <div class="split-layout">
+                <div class="passage-col">
+                    <h2>Why some people believe AI is human</h2>
+                    <p>After MIT Professor Joseph Weizenbaum created the chatbot Eliza, he became concerned that people who had used the programme started to act as if it was human. This might sound like a modern problem, but Eliza was created in 1966. If a programme from the 1960s was capable of tricking people into thinking it was human, what effect could the large-language-model-based chatbots of the 2020s have?</p>
+                    <p>Modern philosophers and technology experts have discussed whether AI could develop consciousness. Sentience is difficult to define, but the fact that large language models respond by mathematically calculating the probability of certain patterns appearing suggests that it would be hard to consider them to be alive. However, in terms of our responses to them, what matters is not whether they are sentient, but whether they appear to be so.</p>
+                    <p>Large language models are made up of genuine human interactions. While their tendency to hallucinate means that chatbots are not able to provide reliable factual information, they are able to effectively replicate the language used in human communication. Psychologists report that people tend to have a cognitive bias towards forming attachment and trust. Even sceptical technology writers report feeling some emotion towards AI chatbots. Some users have even reported grief when one model has been replaced by a newer one.</p>
+                    <p>This combination of believable human language together with the inability to reliably assess facts can be dangerous. Cases have been reported where people have been encouraged by chatbots to do dangerous or illegal things. The chatbots were able to use language to encourage and persuade, but not identify or evaluate risks. Trust becomes dangerous when it is not accompanied by reason. Also, if people form relationships with AI, then they may spend less time and effort trying to cultivate genuine human relationships. Could the chatbot revolution lead to a world where we struggle to relate to each other?</p>
+                </div>
+                <div class="question-col">
+                    <p style="margin-top:0; font-weight: bold; color: #555; margin-bottom: 20px;">Điền ĐÚNG 1 TỪ (ONE WORD ONLY) có trong bài đọc đồng nghĩa với gợi ý.</p>
+                    
+                    <div class="q-item" data-ans="concerned">
+                        <p><b>Q8:</b> Tìm từ đồng nghĩa với <b>'worried / anxious'</b>:</p>
+                        <input type="text" id="q8" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(8)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-8"></div>
+                    </div>
+                    <div class="q-item" data-ans="probability">
+                        <p><b>Q9:</b> Tìm từ đồng nghĩa với <b>'likelihood / chance'</b>:</p>
+                        <input type="text" id="q9" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(9)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-9"></div>
+                    </div>
+                    <div class="q-item" data-ans="genuine">
+                        <p><b>Q10:</b> Tìm từ đồng nghĩa với <b>'real / authentic'</b>:</p>
+                        <input type="text" id="q10" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(10)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-10"></div>
+                    </div>
+                    <div class="q-item" data-ans="replicate">
+                        <p><b>Q11:</b> Tìm từ đồng nghĩa với <b>'copy / reproduce exactly'</b>:</p>
+                        <input type="text" id="q11" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(11)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-11"></div>
+                    </div>
+                    <div class="q-item" data-ans="sceptical">
+                        <p><b>Q12:</b> Tìm từ đồng nghĩa với <b>'doubtful / unconvinced'</b>:</p>
+                        <input type="text" id="q12" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(12)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-12"></div>
+                    </div>
+                    <div class="q-item" data-ans="assess">
+                        <p><b>Q13:</b> Tìm từ đồng nghĩa với <b>'evaluate / judge'</b>:</p>
+                        <input type="text" id="q13" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(13)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-13"></div>
+                    </div>
+                    <div class="q-item" data-ans="cultivate">
+                        <p><b>Q14:</b> Tìm từ đồng nghĩa với <b>'develop / build (a relationship)'</b>:</p>
+                        <input type="text" id="q14" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(14)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-14"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="part-nav">
+                <button class="btn-nav" style="background: #64748b;" onclick="showPart(1)"><i class="fas fa-arrow-left"></i> Quay lại Part 1</button>
+                <button class="btn-nav" onclick="showPart(3)">Chuyển sang Part 3 <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- PART 3 -->
+        <div id="part-3" class="part-container">
+            <div class="part-nav" style="justify-content: flex-start; padding-top: 0;">
+                <h2 style="margin: 0; color: var(--primary);"><i class="fas fa-book-open"></i> PART 3: STEPWELLS</h2>
+            </div>
+            <div class="split-layout">
+                <div class="passage-col">
+                    <h2>Stepwells</h2>
+                    <p>A millennium ago, stepwells were fundamental to life in the driest parts of India. Although many have been neglected, recent restoration has returned them to their former glory. Richard Cox travelled to north-western India to document these spectacular monuments from a bygone era.</p>
+                    <p>During the sixth and seventh centuries, the inhabitants of the modern-day states of Gujarat and Rajasthan in North-western India developed a method of gaining access to clean, fresh groundwater during the dry season for drinking, bathing, watering animals and irrigation. However, the significance of this invention – the stepwell – goes beyond its utilitarian application.</p>
+                    <p>Unique to the region, stepwells are often architecturally complex and vary widely in size and shape. During their heyday, they were places of gathering, of leisure, of relaxation and of worship for villagers of all but the lowest castes. Most stepwells are found dotted around the desert areas of Gujarat (where they are called vav) and Rajasthan (where they are known as baori), while a few also survive in Delhi. Some were located in or near villages as public spaces for the community; others were positioned beside roads as resting places for travellers.</p>
+                    <p>As their name suggests, stepwells comprise a series of stone steps descending from ground level to the water source (normally an underground aquifer) as it recedes following the rains. When the water level was high, the user needed only to descend a few steps to reach it; when it was low, several levels would have to be negotiated.</p>
+                    <p>Some wells are vast, open craters with hundreds of steps paving each sloping side, often in tiers. Others are more elaborate, with long stepped passages leading to the water via several storeys. Built from stone and supported by pillars, they also included pavilions that sheltered visitors from the relentless heat. But perhaps the most impressive features are the intricate decorative sculptures that embellish many stepwells, showing activities from fighting and dancing to everyday acts such as women combing their hair and churning butter.</p>
+                    <p>Down the centuries, thousands of wells were constructed throughout northwestern India, but the majority have now fallen into disuse; many are derelict and dry, as groundwater has been diverted for industrial use and the wells no longer reach the water table. Their condition hasn’t been helped by recent dry spells: southern Rajasthan suffered an eight-year drought between 1996 and 2004.</p>
+                    <p>In Patan, the state’s ancient capital, the stepwell of Rani Ki Vav (Queen’s Stepwell) is perhaps the finest current example. It was built by Queen Udayamati during the late 11th century, but became silted up following a flood during the 13th century. But the Archaeological Survey of India began restoring it in the 1960s, and today it’s in pristine condition. At 65 metres long, 20 metres wide and 27 metres deep, Rani Ki Vav features 500 distinct sculptures carved into niches throughout the monument.</p>
+                    <p>Another example is the Surya Kund in Modhera, northern Gujarat, next to the Sun Temple, built by King Bhima I in 1026 to honour the sun god Surya. It displays the hallmarks of stepwell architecture, including four sides of steps that descend to the bottom in a stunning geometrical formation.</p>
+                    <p>Today, following years of neglect, many of these monuments to medieval engineering have been saved by the Archaeological Survey of India, which has recognised the importance of preserving them as part of the country’s rich history. Tourists flock to wells in far-flung corners of northwestern India to gaze in wonder at these architectural marvels.</p>
+                </div>
+                <div class="question-col">
+                    <p style="margin-top:0; font-weight: bold; color: #555; margin-bottom: 20px;">Điền ĐÚNG 1 TỪ (ONE WORD ONLY) có trong bài đọc đồng nghĩa với gợi ý.</p>
+                    
+                    <div class="q-item" data-ans="fundamental">
+                        <p><b>Q15:</b> Tìm từ đồng nghĩa với <b>'basic and very important'</b>:</p>
+                        <input type="text" id="q15" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(15)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-15"></div>
+                    </div>
+                    <div class="q-item" data-ans="inhabitants">
+                        <p><b>Q16:</b> Tìm từ đồng nghĩa với <b>'people who live in a place'</b>:</p>
+                        <input type="text" id="q16" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(16)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-16"></div>
+                    </div>
+                    <div class="q-item" data-ans="vast">
+                        <p><b>Q17:</b> Tìm từ đồng nghĩa với <b>'extremely big / huge'</b>:</p>
+                        <input type="text" id="q17" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(17)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-17"></div>
+                    </div>
+                    <div class="q-item" data-ans="constructed">
+                        <p><b>Q18:</b> Tìm từ đồng nghĩa với <b>'built / put together'</b>:</p>
+                        <input type="text" id="q18" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(18)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-18"></div>
+                    </div>
+                    <div class="q-item" data-ans="ancient">
+                        <p><b>Q19:</b> Tìm từ đồng nghĩa với <b>'very old'</b>:</p>
+                        <input type="text" id="q19" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(19)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-19"></div>
+                    </div>
+                    <div class="q-item" data-ans="stunning">
+                        <p><b>Q20:</b> Tìm từ đồng nghĩa với <b>'very beautiful / attractive'</b>:</p>
+                        <input type="text" id="q20" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(20)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-20"></div>
+                    </div>
+                    <div class="q-item" data-ans="preserving">
+                        <p><b>Q21:</b> Tìm từ đồng nghĩa với <b>'keeping something safe from damage'</b>:</p>
+                        <input type="text" id="q21" class="input-box" placeholder="Nhập từ..." oninput="markAnswered(21)" autocomplete="off">
+                        <div class="feedback-msg" id="fb-21"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="part-nav">
+                <button class="btn-nav" style="background: #64748b;" onclick="showPart(2)"><i class="fas fa-arrow-left"></i> Quay lại Part 2</button>
+                <button class="btn-nav btn-submit-part" onclick="submitTest()"><i class="fas fa-paper-plane"></i> NỘP BÀI</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BOTTOM NAVIGATION DOTS -->
+<div class="nav-footer">
+    <div class="dots-container" id="nav-dots">
+        <!-- P1: 1-7 -->
+        <script>
+            for(let i=1; i<=7; i++) document.write(`<div class="dot" id="dot-${i}" onclick="jumpTo(${i}, 1)" title="Câu ${i}">${i}</div>`);
+        </script>
+        <div class="part-divider"></div>
+        <!-- P2: 8-14 -->
+        <script>
+            for(let i=8; i<=14; i++) document.write(`<div class="dot" id="dot-${i}" onclick="jumpTo(${i}, 2)" title="Câu ${i}">${i}</div>`);
+        </script>
+        <div class="part-divider"></div>
+        <!-- P3: 15-21 -->
+        <script>
+            for(let i=15; i<=21; i++) document.write(`<div class="dot" id="dot-${i}" onclick="jumpTo(${i}, 3)" title="Câu ${i}">${i}</div>`);
+        </script>
+    </div>
+</div>
+
+<script>
+    // --- TIMER ---
+    let time = 0;
+    let timerInt = setInterval(() => {
+        time++;
+        let m = Math.floor(time/60).toString().padStart(2,'0');
+        let s = (time%60).toString().padStart(2,'0');
+        document.getElementById('timer').innerText = m + ":" + s;
+    }, 1000);
+
+    // --- NAVIGATION LOGIC ---
+    function showPart(partNum) {
+        document.querySelectorAll('.part-container').forEach(el => el.classList.remove('active'));
+        document.getElementById('part-' + partNum).classList.add('active');
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function jumpTo(qNum, partNum) {
+        showPart(partNum);
+        setTimeout(() => {
+            const qEl = document.getElementById('q' + qNum);
+            if(qEl) {
+                // Focus vào input box
+                qEl.focus();
+                // Scroll vùng question-col tới vị trí câu hỏi
+                qEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }, 100);
+    }
+
+    function markAnswered(qNum) {
+        const val = document.getElementById('q' + qNum).value.trim();
+        const dot = document.getElementById('dot-' + qNum);
+        if (val.length > 0) {
+            dot.classList.add('answered');
+        } else {
+            dot.classList.remove('answered');
+        }
+    }
+
+    // --- DICTIONARY & HIGHLIGHT LOGIC ---
+    let currentMode = 'HL';
+    
+    function setMode(mode) {
+        currentMode = mode;
+        document.getElementById('btn-hl').classList.toggle('mode-active', mode === 'HL');
+        document.getElementById('btn-vocab').classList.toggle('mode-active', mode === 'VOCAB');
+    }
+
+    document.addEventListener('dblclick', function(e) {
+        if (currentMode === 'VOCAB') {
+            // Không tra từ nếu double click vào input box
+            if(e.target.tagName.toLowerCase() === 'input') return;
+            
+            let word = window.getSelection().toString().trim();
+            // Lọc các ký tự đặc biệt dính vào từ (dấu phẩy, chấm)
+            word = word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+            if (word && !word.includes(' ')) lookup(word);
+        }
+    });
+
+    async function lookup(word) {
+        const display = document.getElementById('vocab-display');
+        display.innerHTML = "Đang tra: <b>" + word + "</b> <i class='fas fa-spinner fa-spin'></i>";
+        try {
+            const transRes = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=vi&dt=t&q=${encodeURIComponent(word)}`);
+            const transData = await transRes.json();
+            const trans = transData[0][0][0];
+
+            let audioHtml = "";
+            let phonetic = "";
+            let audioUrl = "";
+            
+            try {
+                const dictRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
+                if (dictRes.ok) {
+                    const dictData = await dictRes.json();
+                    if (dictData && dictData.length > 0) {
+                        const selectedAccent = document.getElementById('voice-accent').value;
+                        const targetAccentCode = selectedAccent === 'en-US' ? '-us' : '-uk';
+                        
+                        for (let p of dictData[0].phonetics) {
+                            if (p.text && !phonetic) phonetic = p.text;
+                            if (p.audio) {
+                                audioUrl = p.audio;
+                                if (p.audio.includes(targetAccentCode)) break; 
+                            }
+                        }
+                    }
+                }
+            } catch (e) { console.log("Dictionary API error"); }
+
+            if (audioUrl) {
+                audioHtml = `<button onclick="new Audio('${audioUrl}').play()" style="background:none; border:none; cursor:pointer; font-size:1.3rem; padding: 0; outline: none; color: var(--primary);" title="Nghe phát âm"><i class="fas fa-volume-up"></i></button>`;
+            } else {
+                audioHtml = `<button onclick="speakWord('${word}')" style="background:none; border:none; cursor:pointer; font-size:1.3rem; padding: 0; outline: none; color: var(--primary);" title="Nghe TTS"><i class="fas fa-volume-up"></i></button>`;
+            }
+
+            display.innerHTML = `
+                <div style="display:flex; align-items:center; gap: 10px; flex-wrap: wrap;">
+                    <b style="font-size: 1.2rem; color: var(--primary);">${word}</b> 
+                    <span style="color: #666; font-family: monospace;">${phonetic}</span>
+                    ${audioHtml}
+                </div>
+                <div style="margin-top: 8px; color: var(--accent-orange); font-weight: bold; font-size: 1.1rem;">${trans}</div>
+            `;
+            
+            document.getElementById('vocab-list').innerHTML = `
+                <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom: 8px; padding-bottom: 5px; border-bottom: 1px dashed #ccc;">
+                    <div>• <b>${word}</b>: <span style="color:var(--accent-orange)">${trans}</span></div>
+                    ${audioHtml}
+                </div>` + document.getElementById('vocab-list').innerHTML;
+                
+        } catch(e) { 
+            display.innerHTML = "Lỗi tra từ. Vui lòng thử lại."; 
+        }
+    }
+
+    function speakWord(word) {
+        const utterance = new SpeechSynthesisUtterance(word);
+        utterance.lang = document.getElementById('voice-accent').value;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    document.addEventListener('mouseup', function(e) {
+        if (currentMode !== 'HL') return;
+        if(e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'button') return;
+        
+        let sel = window.getSelection();
+        if (sel.toString().length > 2 && sel.rangeCount > 0) {
+            let range = sel.getRangeAt(0);
+            
+            // Tránh bôi đen nhầm các thẻ block
+            if(range.commonAncestorContainer.nodeType === 1 && range.commonAncestorContainer.tagName !== 'P' && range.commonAncestorContainer.tagName !== 'B') return;
+            
+            let span = document.createElement('span');
+            span.className = 'hl-manual';
+            span.title = "Nhấp đúp để xóa Highlight";
+            span.ondblclick = function(ev) { 
+                ev.stopPropagation(); 
+                let parent = this.parentNode;
+                while (this.firstChild) parent.insertBefore(this.firstChild, this);
+                parent.removeChild(this); 
+            };
+            
+            try {
+                range.surroundContents(span);
+            } catch(err) {
+                // Ignore errors when selecting across multiple elements
+            }
+            sel.removeAllRanges();
+        }
+    });
+
+    function copyVocab() {
+        const list = document.getElementById('vocab-list').innerText;
+        if(!list.trim()) return alert("Chưa có từ vựng nào được tra!");
+        navigator.clipboard.writeText(list).then(() => alert("Đã copy danh sách từ vựng!"));
+    }
+
+    // --- SUBMIT & GRADE LOGIC ---
+    function encodeData(data) { return btoa(unescape(encodeURIComponent(JSON.stringify(data)))); }
+    function decodeData(encodedStr) { return JSON.parse(decodeURIComponent(escape(atob(encodedStr)))); }
+
+    function copyShareLink() {
+        const linkInput = document.getElementById('share-link');
+        linkInput.select();
+        linkInput.setSelectionRange(0, 99999);
+        document.execCommand('copy');
+        alert("Đã copy link thành công!\nHãy gửi link này cho giáo viên.");
+    }
+
+    function submitTest() {
+        const name = document.getElementById('studentName').value.trim();
+        if (!name) return alert("Vui lòng điền họ và tên của bạn ở phía trên trước khi nộp bài!");
+        
+        if(!confirm("Bạn có chắc chắn muốn nộp bài? Không thể sửa đổi sau khi nộp.")) return;
+
+        grade(false);
+    }
+
+    function grade(isTeacherMode) {
+        clearInterval(timerInt);
+        let score = 0;
+        let studentAnswers = []; 
+        const totalQs = 21;
+        
+        for(let i=1; i<=totalQs; i++) {
+            const qItem = document.getElementById('q' + i).closest('.q-item');
+            const ans = qItem.getAttribute('data-ans').toLowerCase();
+            const inputEl = document.getElementById('q' + i);
+            const userVal = inputEl.value.trim();
+            const fbBox = document.getElementById('fb-' + i);
+            const dot = document.getElementById('dot-' + i);
+            
+            studentAnswers.push(userVal);
+            inputEl.readOnly = true; // Khóa input
+            fbBox.style.display = 'block';
+
+            if (userVal === "") {
+                inputEl.classList.add('empty-input');
+                fbBox.className = "feedback-msg empty-msg";
+                fbBox.innerHTML = `⚠️ Chưa làm. Đáp án đúng: <b style="text-transform:uppercase">${ans}</b>`;
+                dot.classList.add('incorrect');
+                dot.classList.remove('answered');
+            } else if (userVal.toLowerCase() === ans) {
+                score++;
+                inputEl.classList.add('correct-input');
+                fbBox.className = "feedback-msg correct-msg";
+                fbBox.innerHTML = "✔ Chính xác!";
+                dot.classList.add('correct');
+            } else {
+                inputEl.classList.add('incorrect-input');
+                fbBox.className = "feedback-msg incorrect-msg";
+                fbBox.innerHTML = `✘ Sai. Đáp án đúng: <b style="text-transform:uppercase">${ans}</b>`;
+                dot.classList.add('incorrect');
+            }
+        }
+        
+        document.getElementById('final-score').innerHTML = `ĐIỂM: ${score}/${totalQs}`;
+        document.querySelectorAll('.btn-submit-part').forEach(btn => btn.style.display = 'none');
+        document.getElementById('studentName').disabled = true;
+
+        if (!isTeacherMode) {
+            const dataObj = { n: document.getElementById('studentName').value.trim(), t: document.getElementById('timer').innerText, a: studentAnswers };
+            const encodedString = encodeData(dataObj);
+            const baseUrl = window.location.href.split('?')[0];
+            const finalLink = baseUrl + "?d=" + encodedString;
+            
+            document.getElementById('share-section').style.display = 'block';
+            document.getElementById('share-link').value = finalLink;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            
+            // Tự động nhảy về trang 1 để xem lại từ đầu
+            showPart(1);
+        }
+    }
+
+    // --- INITIALIZATION ---
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const dataParam = urlParams.get('d');
+        
+        if (dataParam) {
+            try {
+                const studentData = decodeData(dataParam);
+                document.getElementById('studentName').value = studentData.n;
+                
+                // Restore answers
+                for(let i=0; i<studentData.a.length; i++) {
+                    let answer = studentData.a[i];
+                    if (answer !== "") {
+                        document.getElementById('q' + (i+1)).value = answer;
+                    }
+                }
+                
+                document.getElementById('teacher-banner').style.display = 'block';
+                document.getElementById('teacher-banner').innerHTML = `<i class="fas fa-check-double"></i> ĐANG XEM BÀI CỦA HỌC SINH: <b>${studentData.n}</b> (Time: ${studentData.t})`;
+                document.getElementById('timer').innerText = studentData.t;
+                
+                grade(true);
+            } catch (error) {
+                alert("Đường link bài làm bị lỗi hoặc không hợp lệ!");
+            }
+        }
+    };
+</script>
+</body>
+</html>
